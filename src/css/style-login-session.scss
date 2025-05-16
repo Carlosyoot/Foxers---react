@@ -1,0 +1,67 @@
+.dashboard-container {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  background-color: #141414;
+  min-height: 100vh;
+  
+  h1 {
+    margin-bottom: 2rem;
+  }
+}
+
+.accounts-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.account-item {
+  cursor: pointer;
+  transition: transform 0.2s;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  .account-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .add-icon {
+      font-size: 4rem;
+      color: #808080;
+    }
+  }
+  
+  .account-name {
+    color: #808080;
+    font-size: 1.2rem;
+  }
+  
+  &:hover .account-name {
+    color: white;
+  }
+}
+
+.add-account {
+  .account-avatar {
+    background-color: #333;
+    border: 2px dashed #808080;
+  }
+}
