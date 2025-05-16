@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, session  } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -17,13 +17,28 @@ function createWindow() {
   mainWindow.loadURL('http://localhost:5173'); // ou loadFile no prod
 }
 
-ipcMain.on('abrir-nova-janela', () => {
+
+function createIsolatedWindow(sessionId) {
+  const partitionName = `persist:session-${sessionId}`;
+
   const win = new BrowserWindow({
-    width: 600,
-    height: 400,
+    width: 800,
+    height: 600,
+    webPreferences: {
+      partition: partitionName, // <--- AQUI!
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    }
   });
-  win.loadURL('https://google.com'); // ou seu caminho local
+
+win.loadURL('http://localhost:5173/#/home');
+}
+
+ipcMain.on('open-application-window', (event, sessionId) => {
+  createIsolatedWindow(sessionId);
 });
+
 
 app.whenReady().then(createWindow);
 

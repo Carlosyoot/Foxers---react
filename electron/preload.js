@@ -2,5 +2,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  abrirNovaJanela: () => ipcRenderer.send('abrir-nova-janela')
+  openApplicationWindow: (sessionId) => ipcRenderer.send('open-application-window', sessionId),
 });
