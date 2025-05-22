@@ -1,18 +1,53 @@
-import React from "react";
-import { EditModeProvider } from "../context/EditModeContext";
-import logo from '../assets/logo-without-background-border.png';
+import React, { useState } from "react";
+import { EditModeProvider, useEditMode } from "../context/EditModeContext";
+import Cards from "../components/Cards/Cards";
 
+function useFakeUserData(id = 1) {
+  return {
+    id,
+    name: `Usuário ${id}`,
+    avatarUrl: `https://i.pravatar.cc/150?img=${10 + id}`,
+  };
+}
 
+function AccountHubContent() {
+  const { isEditing, toggleEdit } = useEditMode();
+  const [users, setUsers] = useState([useFakeUserData()]);
 
-export default function AccountHub(){
+  function addUser() {
+    setUsers((oldUsers) => [
+      ...oldUsers,
+      useFakeUserData(oldUsers.length + 1),
+    ]);
+  }
 
+  return (
+    <>
+      <button onClick={toggleEdit}>
+        {isEditing ? "Parar edição" : "Ativar edição"}
+      </button>
 
+      <button onClick={addUser} style={{ marginLeft: 10 }}>
+        Adicionar usuário
+      </button>
 
+      {users.map((user) => (
+        <Cards key={user.id} user={user} />
+      ))}
+    </>
+  );
+}
 
-
-    return(
+export default function AccountHub() {
+  return (
     <EditModeProvider>
-        <div className="wrapper">
+      <AccountHubContent />
+    </EditModeProvider>
+  );
+}
+
+
+/*<div className="wrapper">
             <div className="titleContainer">
               <h1>FOXERS</h1>
               <img className="logoImageContainer"
@@ -32,8 +67,4 @@ export default function AccountHub(){
               </div>
             </div>
             <h1>Selecione uma sessão</h1>
-        </div>
-    </EditModeProvider>
-
-    )
-}
+        </div>*/
